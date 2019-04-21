@@ -1,0 +1,5 @@
+splider:
+  parallelism: 1
+  delay: 5 #s
+  all: false # 第一次抓取全部的时候true
+
