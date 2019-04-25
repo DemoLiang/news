@@ -1,0 +1,20 @@
+{
+  "splider": {
+    "parallelism": 5,
+    "delay": 5,
+    "all": false
+  },
+  "wechat": {
+    "appid": "",
+    "seceret": "",
+    "token": ""
+  },
+  "mysql":{
+    "addr": "root:root@tcp(127.0.0.1)/news?charset=utf8&parsrTime=True&loc=Local",
+    "max_idle_conns": 10,
+    "max_open_conns": 100
+  },
+  "http": {
+    "listen": ":12001"
+  }
+}
