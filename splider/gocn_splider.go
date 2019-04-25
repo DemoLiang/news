@@ -17,7 +17,7 @@ func Run() {
 	// On every a element which has href attribute call callback
 	c.OnHTML("div[class=\"aw-mod aw-question-detail aw-item\"]", func(e *colly.HTMLElement) {
 		dailyTitle := e.ChildText("h1")
-		fmt.Printf("dailyTitle:%v\n",dailyTitle)
+		fmt.Printf("dailyTitle:%v\n", dailyTitle)
 		var textUrls []message.TextUrl
 		var author string
 		e.ForEach("div[class=\"content markitup-box\"]", func(i int, e *colly.HTMLElement) {
@@ -63,22 +63,21 @@ func Run() {
 		//fmt.Printf("e:%v\n",element)
 		element.ForEach("a[href]", func(i int, element *colly.HTMLElement) {
 			//"a[href]", func(e *colly.HTMLElement) {
-				link := element.Attr("href")
-				//fmt.Printf("Link found: %q -> %s\n", e.Text, link)
-				if /*e.Text == ">" ||*/ strings.Contains(element.Text, "GoCN每日新闻") {
-					// Visit link found on page
-					// Only those links are visited which are in AllowedDomains
-					//fmt.Printf("e:%v %v\n", element, element.Request.AbsoluteURL(link))
-					if strings.Contains(element.Text,time.Now().Format("2006-01-02")) {
-						fmt.Printf("link:%v\n", link)
-						_ = c.Visit(element.Request.AbsoluteURL(link))
-					}
-					return
-					url = element.Request.AbsoluteURL(link)
+			link := element.Attr("href")
+			//fmt.Printf("Link found: %q -> %s\n", e.Text, link)
+			if /*e.Text == ">" ||*/ strings.Contains(element.Text, "GoCN每日新闻") {
+				// Visit link found on page
+				// Only those links are visited which are in AllowedDomains
+				//fmt.Printf("e:%v %v\n", element, element.Request.AbsoluteURL(link))
+				if strings.Contains(element.Text, time.Now().Format("2006-01-02")) {
+					fmt.Printf("link:%v\n", link)
+					_ = c.Visit(element.Request.AbsoluteURL(link))
 				}
+				return
+				url = element.Request.AbsoluteURL(link)
+			}
 		})
 	})
-
 
 	if config.Config.GetBool("splider.all") {
 		c.OnHTML("div[class=\"page-control\"]", func(element *colly.HTMLElement) {
@@ -111,7 +110,7 @@ func init() {
 	c = colly.NewCollector(
 		colly.AllowedDomains("gocn.vip"),
 		colly.MaxDepth(1),
-		//colly.Debugger(&debug.LogDebugger{}),
+		//colly.Debugger(&debug.base.LogDebugger{}),
 	)
 
 	parallelism := config.Config.GetInt("splider.parallelism")
