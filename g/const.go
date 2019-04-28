@@ -45,15 +45,15 @@ const (
 	REQ_MESSAGE_TYPE_EVENT__VIEW        = "VIEW"
 )
 
-
 const (
 	WECHAT__MENU_BUTTON__BT0 = "bt0"
 	WECHAT__MENU_BUTTON__BT1 = "bt1"
 	WECHAT__MENU_BUTTON__BT2 = "bt2"
 )
 
-const(
-	DEFAULT_SUBSCRIBE__MSG="感谢关注每日新闻集,今后我们将每日推送你想要的每日新闻集合喔～"
+const (
+	DEFAULT_SUBSCRIBE__MSG   = "感谢关注每日新闻集,今后我们将每日推送你想要的每日新闻集合喔～"
+	DEFAULT_LATEST_NEWS_NULL = "暂无最新消息"
 )
 
 const (
