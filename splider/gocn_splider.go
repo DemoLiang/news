@@ -2,7 +2,9 @@ package splider
 
 import (
 	"fmt"
+	"news/base"
 	"news/config"
+	"news/db"
 	"news/message"
 	"strings"
 	"time"
@@ -18,7 +20,7 @@ func Run() {
 	c.OnHTML("div[class=\"aw-mod aw-question-detail aw-item\"]", func(e *colly.HTMLElement) {
 		dailyTitle := e.ChildText("h1")
 		fmt.Printf("dailyTitle:%v\n", dailyTitle)
-		var textUrls []message.TextUrl
+		var textUrls []db.MsgTextUrl
 		var author string
 		e.ForEach("div[class=\"content markitup-box\"]", func(i int, e *colly.HTMLElement) {
 			e.ForEach("li", func(i int, e *colly.HTMLElement) {
@@ -27,7 +29,7 @@ func Run() {
 				if urlIndex <= len(e.Text) && urlIndex != -1 {
 					//println(urlIndex, len(e.Text), e.Text)
 					text := e.Text[0:urlIndex]
-					textUrls = append(textUrls, message.TextUrl{text, url})
+					textUrls = append(textUrls, db.MsgTextUrl{MsgText: text, MsgUrl: url})
 				}
 			})
 
@@ -51,7 +53,7 @@ func Run() {
 			})
 		})
 
-		message.Push(message.Message{
+		message.Push(db.Message{
 			DailyTitle: dailyTitle,
 			TextUrls:   textUrls,
 			Author:     author,
@@ -79,7 +81,7 @@ func Run() {
 		})
 	})
 
-	if config.Config.GetBool("splider.all") {
+	if config.Cfg().Splider.All {
 		c.OnHTML("div[class=\"page-control\"]", func(element *colly.HTMLElement) {
 			isHasNext := false
 			element.ForEach("a[href]", func(i int, e *colly.HTMLElement) {
@@ -113,12 +115,13 @@ func init() {
 		//colly.Debugger(&debug.base.LogDebugger{}),
 	)
 
-	parallelism := config.Config.GetInt("splider.parallelism")
-	delay := time.Duration(config.Config.GetInt("splider.delay")) * time.Second
+	parallelism := config.Cfg().Splider.Parallelism
+	delay := time.Duration(config.Cfg().Splider.Delay) * time.Second
 
-	c.Limit(&colly.LimitRule{
+	err := c.Limit(&colly.LimitRule{
 		DomainGlob:  "gocn.vip",
 		Parallelism: parallelism,
 		Delay:       delay,
 	})
+	base.Log("c.limit error:%v", err)
 }

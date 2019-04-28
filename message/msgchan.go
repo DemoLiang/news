@@ -2,36 +2,24 @@ package message
 
 import (
 	"errors"
+	"news/db"
 )
 
-// TextUrl 每日新闻内容
-type TextUrl struct {
-	Text string
-	Url  string
-}
+var messageChain chan db.Message
 
-type Message struct {
-	TextUrls   []TextUrl
-	DailyTitle string
-	Author     string // 编辑
-	PostUrl    string // 原文地址
-}
-
-var messageChain chan Message
-
-func Push(m Message) {
+func Push(m db.Message) {
 	messageChain <- m
 }
 
-func Pop() (Message, error) {
+func Pop() (db.Message, error) {
 	select {
 	case m := <-messageChain:
 		return m, nil
 	default:
-		return Message{}, errors.New("nil")
+		return db.Message{}, errors.New("nil")
 	}
 }
 
 func init() {
-	messageChain = make(chan Message, 10000)
+	messageChain = make(chan db.Message, 10000)
 }

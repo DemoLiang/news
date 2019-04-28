@@ -54,14 +54,14 @@ type GlobalConfig struct {
 	Wechat struct {
 		Appid   string `json:"appid"`
 		Seceret string `json:"seceret"`
-		Token string `json:"token"`
+		Token   string `json:"token"`
 	} `json:"wechat"`
 	Mysql struct {
 		Addr         string `json:"addr"`
 		MaxIdleConns int    `json:"max_idle_conns"`
 		MaxOpenConns int    `json:"max_open_conns"`
 	} `json:"mysql"`
-	Http struct{
+	Http struct {
 		Listen string `json:"listen"`
 	} `json:"http"`
 }
