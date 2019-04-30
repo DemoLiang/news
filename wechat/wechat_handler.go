@@ -1,7 +1,6 @@
 package wechat
 
 import (
-	"fmt"
 	"news/base"
 	"news/db"
 	"news/g"
@@ -46,13 +45,14 @@ func GetLatestNews(baseMsg *model.WeChatBaseMessage) (respMsg string, newsType s
 	}
 	for idx, _ := range msg.TextUrls {
 
-		urlDetail := buildItemUrlDetail()
+		//urlDetail := buildItemUrlDetail()
 
 		var article model.WeChatArticle
-		article.Title = GetWechatWarnNewsTitle(dpDataMap[key].VideoTime, dpDataMap[key].Cid, dpDataMap[key].AliasName)
-		article.Description = GetWechatWarnNewsDescription()
-		article.PicUrl = timeUrlList[0]
-		article.Url = urlDetail
+		//article.Title = GetWechatWarnNewsTitle(dpDataMap[key].VideoTime, dpDataMap[key].Cid, dpDataMap[key].AliasName)
+		//article.Description = GetWechatWarnNewsDescription()
+		//article.PicUrl = timeUrlList[0]
+		article.Url = msg.TextUrls[idx].MsgUrl
+		article.Description = msg.TextUrls[idx].MsgText
 		newsMsg.Articles.Item = append(newsMsg.Articles.Item, article)
 	}
 
