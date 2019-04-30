@@ -57,10 +57,10 @@ func healthHandler(ctx *gin.Context) {
 }
 
 func wechatAuthHandler(ctx *gin.Context) {
-	signature := ctx.GetString("signature")
-	timestamp := ctx.GetString("timestamp")
-	nonce := ctx.GetString("nonce")
-	echostr := ctx.GetString("echostr")
+	signature,_ := ctx.GetQuery("signature")
+	timestamp ,_:= ctx.GetQuery("timestamp")
+	nonce ,_:= ctx.GetQuery("nonce")
+	echostr ,_:= ctx.GetQuery("echostr")
 
 	var list = []string{config.Cfg().Wechat.Token, timestamp, nonce}
 	sort.Strings(list)
